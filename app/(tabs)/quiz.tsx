@@ -1,48 +1,136 @@
 import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const quizzes = [
-  { id: 1, title: "React Native Basics", questions: 15, level: "Beginner" },
-  { id: 2, title: "Expo Router", questions: 10, level: "Intermediate" },
-  { id: 3, title: "TypeScript", questions: 20, level: "Beginner" },
+  {
+    id: 1,
+    title: "Introduction to Robotics",
+    questions: 10,
+    level: "Beginner",
+    color: "#FFE66D",
+  },
+  {
+    id: 2,
+    title: "Arduino Basics",
+    questions: 15,
+    level: "Beginner",
+    color: "#B8F2E6",
+  },
+  {
+    id: 3,
+    title: "Sensors & Actuators",
+    questions: 12,
+    level: "Intermediate",
+    color: "#F8C8DC",
+  },
+  {
+    id: 4,
+    title: "Motors & Gear Systems",
+    questions: 14,
+    level: "Intermediate",
+    color: "#A9DEF9",
+  },
+  {
+    id: 5,
+    title: "Bluetooth Robot Car",
+    questions: 18,
+    level: "Advanced",
+    color: "#FFD6A5",
+  },
+  {
+    id: 6,
+    title: "Line Follower Robot",
+    questions: 20,
+    level: "Advanced",
+    color: "#D0BFFF",
+  },
 ];
+
+const rotations = ["-2deg", "2deg", "-1deg", "3deg", "-3deg", "1deg"];
 
 export default function QuizScreen() {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F4EAD4" />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#F5ECD7"
+      />
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        {/* Pastel Light Blue Neo-Brutalist Hero Card Box */}
-        <View style={styles.hero}>
-          <View style={styles.heroIconContainer}>
-            <Ionicons name="bulb" size={30} color="#000000" />
-          </View>
-          <Text style={styles.heroTitle}>Ready to Test Yourself?</Text>
-          <Text style={styles.heroSubtitle}>
-            Complete quizzes after every tutorial and track your learning progress.
-          </Text>
-        </View>
-      
-        <Text style={styles.sectionTitle}>Available Quizzes</Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <Text style={styles.heading}>
+          Quiz Board
+        </Text>
 
-        {quizzes.map((quiz) => (
-          <TouchableOpacity key={quiz.id} style={styles.card} activeOpacity={0.8}>
-            <View style={styles.iconBox}>
-              <Ionicons name="help-circle" size={22} color="#000000" />
+        <Text style={styles.subHeading}>
+          Pick a sticky note and test your robotics knowledge.
+        </Text>
+
+        {quizzes.map((quiz, index) => (
+          <TouchableOpacity
+            key={quiz.id}
+            activeOpacity={0.85}
+            style={[
+              styles.note,
+              {
+                backgroundColor: quiz.color,
+                transform: [{ rotate: rotations[index] }],
+              },
+            ]}
+          >
+            <View style={styles.pin} />
+
+            <Text style={styles.noteTitle}>
+              {quiz.title}
+            </Text>
+
+            <View style={styles.infoRow}>
+              <Ionicons
+                name="help-circle"
+                size={18}
+                color="#000"
+              />
+              <Text style={styles.infoText}>
+                {quiz.questions} Questions
+              </Text>
             </View>
 
-            <View style={{ flex: 1 }}>
-              <Text style={styles.cardTitle}>{quiz.title}</Text>
-              <Text style={styles.cardSubtitle}>{quiz.questions} Questions • {quiz.level}</Text>
+            <View style={styles.infoRow}>
+              <Ionicons
+                name="star"
+                size={18}
+                color="#000"
+              />
+              <Text style={styles.infoText}>
+                {quiz.level}
+              </Text>
             </View>
 
-            <View style={styles.arrowContainer}>
-              <Ionicons name="chevron-forward" size={18} color="#000000" />
-            </View>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>
+                Start Quiz
+              </Text>
+
+              <Ionicons
+                name="arrow-forward"
+                size={18}
+                color="#000"
+              />
+            </TouchableOpacity>
           </TouchableOpacity>
         ))}
+
+        <View style={{ height: 120 }} />
       </ScrollView>
     </View>
   );
@@ -51,101 +139,99 @@ export default function QuizScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F4EAD4",
+    backgroundColor: "#F5ECD7",
   },
+
   scrollContent: {
-    paddingHorizontal: 20,
+    padding: 20,
     paddingTop: 60,
-    paddingBottom: 130,
   },
-  hero: {
-    backgroundColor: "#A8E6CF", // Pastel Light Mint panel style base
-    borderRadius: 16,
-    padding: 24,
-    alignItems: "center",
-    marginBottom: 32,
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    shadowColor: "#000000",
+
+  heading: {
+    fontSize: 32,
+    fontWeight: "900",
+    color: "#000",
+  },
+
+  subHeading: {
+    marginTop: 8,
+    marginBottom: 30,
+    fontSize: 15,
+    color: "#444",
+    lineHeight: 22,
+  },
+
+  note: {
+    borderRadius: 18,
+    padding: 22,
+    marginBottom: 28,
+
+    borderWidth: 2,
+    borderColor: "#000",
+
+    shadowColor: "#000",
     shadowOpacity: 1,
     shadowRadius: 0,
-    shadowOffset: { width: 5, height: 5 },
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
   },
-  heroIconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 16,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 14,
+
+  pin: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: "#FF4D4D",
+
     borderWidth: 2,
-    borderColor: "#000000",
+    borderColor: "#000",
+
+    alignSelf: "center",
+    marginBottom: 18,
   },
-  heroTitle: {
-    color: "#000000",
+
+  noteTitle: {
     fontSize: 22,
     fontWeight: "900",
-    textAlign: "center",
+    color: "#000",
+    marginBottom: 18,
   },
-  heroSubtitle: {
-    color: "#000000",
-    textAlign: "center",
-    marginTop: 8,
-    lineHeight: 20,
-    fontSize: 13,
-    fontWeight: "600",
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "900",
-    color: "#000000",
-    marginBottom: 16,
-  },
-  card: {
-    backgroundColor: "#E8AEB7", // Soft pastel pink base profile
-    borderRadius: 16,
-    padding: 16,
+
+  infoRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
-    borderWidth: 2,
-    borderColor: "#000000",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 4, height: 4 },
+    marginBottom: 10,
   },
-  iconBox: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
+
+  infoText: {
+    marginLeft: 10,
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#000",
+  },
+
+  button: {
+    marginTop: 22,
+
+    flexDirection: "row",
     alignItems: "center",
-    marginRight: 14,
-    borderWidth: 1.5,
-    borderColor: "#000000",
+    justifyContent: "center",
+
+    backgroundColor: "#FFF",
+
+    borderWidth: 2,
+    borderColor: "#000",
+
+    borderRadius: 14,
+
+    paddingVertical: 12,
   },
-  cardTitle: {
+
+  buttonText: {
     fontSize: 16,
     fontWeight: "900",
-    color: "#000000",
-  },
-  cardSubtitle: {
-    color: "#000000",
-    marginTop: 4,
-    fontSize: 13,
-    fontWeight: "600",
-  },
-  arrowContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1.5,
-    borderColor: "#000000",
+    color: "#000",
+    marginRight: 8,
   },
 });
