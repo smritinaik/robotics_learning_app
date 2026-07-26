@@ -1,22 +1,37 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, StatusBar, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+  Image,
+} from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useLikedStore } from "../../store/useLikedStore";
 
 export default function HomeScreen() {
   const likedTutorials = useLikedStore((state) => state.likedTutorials);
+  const toggleLike = useLikedStore((state) => state.toggleLike);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#F8F4E8" />
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         {/* Top Header Row */}
         <View style={styles.topHeaderRow}>
-          <Text style={styles.appName}>ROBOLEARN</Text>
+          <View>
+            <Text style={styles.appName}>ROBOLEARN</Text>
+            <Text style={styles.appSubHeader}>Interactive Engineering</Text>
+          </View>
           <TouchableOpacity style={styles.menuIconButton} activeOpacity={0.8}>
-            <Ionicons name="options" size={22} color="#000000" />
+            <Ionicons name="options-outline" size={20} color="#000000" />
           </TouchableOpacity>
         </View>
 
@@ -24,13 +39,16 @@ export default function HomeScreen() {
         <View style={styles.heroBannerBox}>
           <View style={styles.heroContentContainer}>
             <View style={styles.heroTextSection}>
+              <View style={styles.tagBadge}>
+                <Text style={styles.tagText}>FEATURED TRACK</Text>
+              </View>
               <Text style={styles.heroTitleText}>Build & Program</Text>
               <Text style={styles.heroDescriptionText}>
-                Master real-world microcontrollers, sensors, and kinematics layouts from scratch.
+                Master microcontrollers, sensors, and kinematics from scratch.
               </Text>
             </View>
-            <Image 
-              source={require("../../assets/images/homeimg.jpg")} 
+            <Image
+              source={require("../../assets/images/homeimg.png")}
               style={styles.heroAssetImage}
               resizeMode="contain"
             />
@@ -38,7 +56,7 @@ export default function HomeScreen() {
 
           <TouchableOpacity
             style={styles.startLearningButton}
-            activeOpacity={0.9}
+            activeOpacity={0.85}
             onPress={() => router.push("/learning")}
           >
             <Text style={styles.startLearningButtonText}>LAUNCH TRACKS</Text>
@@ -63,8 +81,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-      
-
         {/* Section Header: Saved Bookmarks */}
         <View style={styles.headerRow}>
           <Text style={styles.sectionTitle}>Bookmarks</Text>
@@ -75,15 +91,24 @@ export default function HomeScreen() {
 
         {likedTutorials.length === 0 ? (
           <View style={styles.emptyCard}>
-            <Ionicons name="heart-outline" size={32} color="#000000" />
+            <View style={styles.emptyIconCircle}>
+              <Ionicons name="heart-outline" size={28} color="#000000" />
+            </View>
             <Text style={styles.emptyTitle}>No Bookmarks Saved</Text>
-            <Text style={styles.emptySubtitle}>Tap the heart icon on any tutorial track to store it here.</Text>
+            <Text style={styles.emptySubtitle}>
+              Tap the heart icon on any tutorial track in the learning tab to save it here.
+            </Text>
           </View>
         ) : (
           likedTutorials.map((tutorial) => (
-            <TouchableOpacity key={tutorial.id} style={styles.card} activeOpacity={0.8}>
+            <TouchableOpacity
+              key={tutorial.id}
+              style={styles.card}
+              activeOpacity={0.85}
+              onPress={() => router.push("/learning")}
+            >
               <View style={styles.iconContainer}>
-                <Ionicons name="book-outline" size={18} color="#000000" />
+                <Ionicons name="book-outline" size={20} color="#000000" />
               </View>
 
               <View style={{ flex: 1 }}>
@@ -91,7 +116,13 @@ export default function HomeScreen() {
                 <Text style={styles.cardSubtitle}>{tutorial.level} Track</Text>
               </View>
 
-              <Ionicons name="heart" size={24} color="#FF8B94" />
+              <TouchableOpacity
+                style={{ padding: 4 }}
+                onPress={() => toggleLike(tutorial)}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="heart" size={24} color="#FF8B94" />
+              </TouchableOpacity>
             </TouchableOpacity>
           ))
         )}
@@ -103,24 +134,30 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F4E8", // Matches clean baseline cream canvas
+    backgroundColor: "#F8F4E8",
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 50,
-    paddingBottom: 100,
+    paddingTop: 54,
+    paddingBottom: 120,
   },
   topHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: 20,
   },
   appName: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: "900",
     color: "#000000",
     letterSpacing: -0.5,
+  },
+  appSubHeader: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#666666",
+    marginTop: -2,
   },
   menuIconButton: {
     backgroundColor: "#FFFFFF",
@@ -131,10 +168,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2.5,
     borderColor: "#000000",
+    shadowColor: "#000000",
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
   },
   heroBannerBox: {
-    backgroundColor: "#FFB7B2", 
-    borderRadius: 16,
+    backgroundColor: "#FFE5D9", // Updated to a lighter, softer pastel peach
+    borderRadius: 20,
     padding: 20,
     marginBottom: 28,
     borderWidth: 2.5,
@@ -148,30 +189,49 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 18,
+    marginBottom: 16,
   },
   heroTextSection: {
     flex: 1,
-    paddingRight: 10,
+    paddingRight: 8,
+  },
+  tagBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: "#000000",
+    marginBottom: 8,
+  },
+  tagText: {
+    fontSize: 10,
+    fontWeight: "900",
+    color: "#000000",
+    letterSpacing: 0.5,
   },
   heroTitleText: {
     fontSize: 22,
     fontWeight: "900",
     color: "#000000",
     marginBottom: 6,
+    lineHeight: 26,
   },
   heroDescriptionText: {
     fontSize: 13,
-    color: "#000000",
+    color: "#333333",
     lineHeight: 18,
     fontWeight: "700",
   },
   heroAssetImage: {
-    width: 75,
-    height: 75,
+    width: 110,  // Increased width
+    height: 110, // Increased height
+    borderRadius: 12,
+    marginRight: -6,
   },
   startLearningButton: {
-    backgroundColor: "#BFFCC6", 
+    backgroundColor: "#BFFCC6",
     borderRadius: 12,
     paddingVertical: 14,
     flexDirection: "row",
@@ -182,19 +242,19 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOpacity: 1,
     shadowRadius: 0,
-    shadowOffset: { width: 3, height: 3 },
+    shadowOffset: { width: 2.5, height: 2.5 },
   },
   startLearningButtonText: {
     color: "#000000",
     fontWeight: "900",
     fontSize: 14,
+    letterSpacing: 0.5,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "900",
     color: "#000000",
-    marginBottom: 14,
-    marginTop: 6,
+    marginBottom: 12,
   },
   statsGrid: {
     flexDirection: "row",
@@ -204,7 +264,7 @@ const styles = StyleSheet.create({
   statItemCard: {
     flex: 1,
     paddingVertical: 14,
-    borderRadius: 14,
+    borderRadius: 16,
     alignItems: "center",
     borderWidth: 2.5,
     borderColor: "#000000",
@@ -214,86 +274,20 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 3 },
   },
   statNumber: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "900",
     color: "#000000",
   },
   statLabel: {
     fontSize: 12,
-    fontWeight: "700",
-    color: "#000000",
+    fontWeight: "800",
+    color: "#222222",
     marginTop: 2,
-  },
-  challengeCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    padding: 16,
-    marginBottom: 28,
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 4, height: 4 },
-  },
-  challengeHeaderRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  tagBadge: {
-    backgroundColor: "#FFD8C2",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-    borderWidth: 1.5,
-    borderColor: "#000000",
-  },
-  tagText: {
-    fontSize: 10,
-    fontWeight: "900",
-    color: "#000000",
-  },
-  xpText: {
-    fontSize: 12,
-    fontWeight: "900",
-    color: "#666666",
-  },
-  challengeTitle: {
-    fontSize: 16,
-    fontWeight: "900",
-    color: "#000000",
-    marginBottom: 4,
-  },
-  challengeBody: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#555555",
-    lineHeight: 18,
-    marginBottom: 14,
-  },
-  challengeActionBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    backgroundColor: "#D8FFD6",
-    borderWidth: 2,
-    borderColor: "#000000",
-    borderRadius: 8,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-  },
-  challengeActionText: {
-    fontSize: 12,
-    fontWeight: "900",
-    color: "#000000",
-    marginRight: 6,
   },
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 14,
+    marginBottom: 12,
   },
   countBadge: {
     backgroundColor: "#EBE6D8",
@@ -311,47 +305,62 @@ const styles = StyleSheet.create({
   },
   emptyCard: {
     backgroundColor: "#FFFFFF",
-    borderRadius: 16,
+    borderRadius: 18,
     padding: 24,
     alignItems: "center",
     borderWidth: 2.5,
     borderColor: "#000000",
+    shadowColor: "#000000",
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 3, height: 3 },
+  },
+  emptyIconCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "#FFD6E7",
+    borderWidth: 2,
+    borderColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
   },
   emptyTitle: {
     color: "#000000",
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "900",
-    marginTop: 10,
   },
   emptySubtitle: {
     color: "#666666",
     textAlign: "center",
     marginTop: 4,
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: "700",
+    lineHeight: 16,
   },
   card: {
     backgroundColor: "#FFFFFF",
     borderRadius: 16,
-    padding: 16,
+    padding: 14,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 14,
     borderWidth: 2.5,
     borderColor: "#000000",
     shadowColor: "#000000",
     shadowOpacity: 1,
     shadowRadius: 0,
-    shadowOffset: { width: 4, height: 4 },
+    shadowOffset: { width: 3.5, height: 3.5 },
   },
   iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
+    width: 42,
+    height: 42,
+    borderRadius: 12,
     backgroundColor: "#FFD6E7",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 14,
+    marginRight: 12,
     borderWidth: 2,
     borderColor: "#000000",
   },

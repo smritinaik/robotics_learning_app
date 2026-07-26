@@ -11,20 +11,12 @@ type TabIconProps = {
 function TabIcon({ focused, icon, label }: TabIconProps) {
   return focused ? (
     <View style={styles.activePill}>
-      <Ionicons
-        name={icon}
-        size={30}
-        color="#000"
-      />
+      <Ionicons name={icon} size={26} color="#000" />
       <Text style={styles.activeLabel}>{label}</Text>
     </View>
   ) : (
     <View style={styles.inactiveCircle}>
-      <Ionicons
-        name={icon}
-        size={30}
-        color="#000"
-      />
+      <Ionicons name={icon} size={26} color="#000" />
     </View>
   );
 }
@@ -35,9 +27,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-
         tabBarStyle: styles.tabBar,
-
         tabBarItemStyle: {
           flex: 1,
           justifyContent: "center",
@@ -83,6 +73,19 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name="calc"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              focused={focused}
+              icon={focused ? "calculator" : "calculator-outline"}
+              label="Calc"
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
@@ -90,7 +93,6 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     position: "absolute",
-
     left: 20,
     right: 20,
     bottom: 24,
@@ -103,7 +105,6 @@ const styles = StyleSheet.create({
 
     borderWidth: 2,
     borderColor: "#000",
-
     borderTopWidth: 2,
 
     elevation: 0,
@@ -116,16 +117,15 @@ const styles = StyleSheet.create({
       height: 5,
     },
 
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
     paddingVertical: 10,
   },
 
   activePill: {
-    height: 54,
+    height: 50,
 
-    minWidth: 130,
-
-    paddingHorizontal: 18,
+    minWidth: 88,
+    paddingHorizontal: 10,
 
     borderRadius: 16,
 
@@ -141,9 +141,9 @@ const styles = StyleSheet.create({
   },
 
   activeLabel: {
-    marginLeft: 8,
+    marginLeft: 4,
 
-    fontSize: 16,
+    fontSize: 14,
 
     fontWeight: "900",
 
@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
   },
 
   inactiveCircle: {
-    width: 56,
-    height: 56,
+    width: 50,
+    height: 50,
 
     borderRadius: 16,
 
