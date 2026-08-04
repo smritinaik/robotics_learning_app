@@ -1,3 +1,4 @@
+import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Text, StyleSheet } from "react-native";
@@ -11,12 +12,12 @@ type TabIconProps = {
 function TabIcon({ focused, icon, label }: TabIconProps) {
   return focused ? (
     <View style={styles.activePill}>
-      <Ionicons name={icon} size={26} color="#000" />
+      <Ionicons name={icon} size={22} color="#000" />
       <Text style={styles.activeLabel}>{label}</Text>
     </View>
   ) : (
     <View style={styles.inactiveCircle}>
-      <Ionicons name={icon} size={26} color="#000" />
+      <Ionicons name={icon} size={22} color="#000" />
     </View>
   );
 }
@@ -55,7 +56,20 @@ export default function TabLayout() {
             <TabIcon
               focused={focused}
               icon={focused ? "book" : "book-outline"}
-              label="Learning"
+              label="Learn"
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="notes"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              focused={focused}
+              icon={focused ? "document-text" : "document-text-outline"}
+              label="Notes"
             />
           ),
         }}
@@ -93,19 +107,18 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     position: "absolute",
-    left: 20,
-    right: 20,
+    left: 12,
+    right: 12,
     bottom: 24,
 
-    height: 78,
+    height: 74,
 
     backgroundColor: "#fff",
 
     borderRadius: 24,
 
-    borderWidth: 2,
+    borderWidth: 2.5,
     borderColor: "#000",
-    borderTopWidth: 2,
 
     elevation: 0,
 
@@ -113,21 +126,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     shadowOffset: {
-      width: 5,
-      height: 5,
+      width: 4,
+      height: 4,
     },
 
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 8,
   },
 
   activePill: {
-    height: 50,
+    height: 46,
 
-    minWidth: 88,
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
 
-    borderRadius: 16,
+    borderRadius: 14,
 
     backgroundColor: "#D8C8FF",
 
@@ -143,7 +155,7 @@ const styles = StyleSheet.create({
   activeLabel: {
     marginLeft: 4,
 
-    fontSize: 14,
+    fontSize: 12,
 
     fontWeight: "900",
 
@@ -151,10 +163,10 @@ const styles = StyleSheet.create({
   },
 
   inactiveCircle: {
-    width: 50,
-    height: 50,
+    width: 42,
+    height: 42,
 
-    borderRadius: 16,
+    borderRadius: 14,
 
     justifyContent: "center",
     alignItems: "center",

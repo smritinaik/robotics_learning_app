@@ -24,15 +24,30 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Top Header Row */}
+        {/* Top Header Section */}
         <View style={styles.topHeaderRow}>
-          <View>
-            <Text style={styles.appName}>ROBOLEARN</Text>
-            <Text style={styles.appSubHeader}>Interactive Engineering</Text>
+          <View style={styles.userSection}>
+            <View style={styles.logoBorder}>
+              <Image
+                source={require("../../assets/images/logo.png")}
+                style={styles.logoImage}
+                resizeMode="contain"
+              />
+            </View>
+            <View>
+              <View style={styles.welcomeRow}>
+                <Text style={styles.welcomeText}>WELCOME BACK</Text>
+                <View style={styles.statusDot} />
+              </View>
+              <Text style={styles.appName}>Qurious Mind</Text>
+            </View>
           </View>
-          <TouchableOpacity style={styles.menuIconButton} activeOpacity={0.8}>
-            <Ionicons name="options-outline" size={20} color="#000000" />
-          </TouchableOpacity>
+
+          <View style={styles.headerActions}>
+            <TouchableOpacity style={styles.menuIconButton} activeOpacity={0.8}>
+              <Ionicons name="notifications-outline" size={20} color="#000000" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Neo-brutalist Hero Banner */}
@@ -40,6 +55,7 @@ export default function HomeScreen() {
           <View style={styles.heroContentContainer}>
             <View style={styles.heroTextSection}>
               <View style={styles.tagBadge}>
+                <Ionicons name="sparkles" size={12} color="#000" style={{ marginRight: 4 }} />
                 <Text style={styles.tagText}>FEATURED TRACK</Text>
               </View>
               <Text style={styles.heroTitleText}>Build & Program</Text>
@@ -60,25 +76,53 @@ export default function HomeScreen() {
             onPress={() => router.push("/learning")}
           >
             <Text style={styles.startLearningButtonText}>LAUNCH TRACKS</Text>
-            <Ionicons name="flash" size={16} color="#000000" style={{ marginLeft: 6 }} />
+            <Ionicons
+              name="flash"
+              size={16}
+              color="#000000"
+              style={{ marginLeft: 6 }}
+            />
           </TouchableOpacity>
         </View>
 
-        {/* Quick Insights Stats Grid */}
-        <Text style={styles.sectionTitle}>Overview</Text>
-        <View style={styles.statsGrid}>
-          <View style={[styles.statItemCard, { backgroundColor: "#CDE7FF" }]}>
-            <Text style={styles.statNumber}>6</Text>
-            <Text style={styles.statLabel}>Tracks</Text>
-          </View>
-          <View style={[styles.statItemCard, { backgroundColor: "#FFF4B8" }]}>
-            <Text style={styles.statNumber}>6</Text>
-            <Text style={styles.statLabel}>Files</Text>
-          </View>
-          <View style={[styles.statItemCard, { backgroundColor: "#E8D5FF" }]}>
-            <Text style={styles.statNumber}>{likedTutorials.length}</Text>
-            <Text style={styles.statLabel}>Saved</Text>
-          </View>
+        {/* Quick Hub Navigation Cards */}
+        <Text style={styles.sectionTitle}>Quick Hub</Text>
+        <View style={styles.quickHubGrid}>
+          <TouchableOpacity
+            style={[styles.hubCard, { backgroundColor: "#CDE7FF" }]}
+            activeOpacity={0.85}
+            onPress={() => router.push("/learning")}
+          >
+            <View style={styles.hubIconBox}>
+              <Ionicons name="book" size={20} color="#000" />
+            </View>
+            <Text style={styles.hubTitle}>Tracks</Text>
+            <Text style={styles.hubSubText}>Browse Lessons</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.hubCard, { backgroundColor: "#FFF4B8" }]}
+            activeOpacity={0.85}
+            onPress={() => router.push("/notes")}
+          >
+            <View style={styles.hubIconBox}>
+              <Ionicons name="document-text" size={20} color="#000" />
+            </View>
+            <Text style={styles.hubTitle}>Notes</Text>
+            <Text style={styles.hubSubText}>Drive Resources</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.hubCard, { backgroundColor: "#E8D5FF" }]}
+            activeOpacity={0.85}
+            onPress={() => router.push("/quiz")}
+          >
+            <View style={styles.hubIconBox}>
+              <Ionicons name="bulb" size={20} color="#000" />
+            </View>
+            <Text style={styles.hubTitle}>Quizzes</Text>
+            <Text style={styles.hubSubText}>Test Skills</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Section Header: Saved Bookmarks */}
@@ -96,7 +140,8 @@ export default function HomeScreen() {
             </View>
             <Text style={styles.emptyTitle}>No Bookmarks Saved</Text>
             <Text style={styles.emptySubtitle}>
-              Tap the heart icon on any tutorial track in the learning tab to save it here.
+              Tap the heart icon on any tutorial track in the learning tab to save
+              it here.
             </Text>
           </View>
         ) : (
@@ -139,25 +184,65 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 20,
     paddingTop: 54,
-    paddingBottom: 120,
+    paddingBottom: 130,
   },
   topHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 24,
+  },
+  userSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  logoBorder: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 2.5,
+    borderColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    shadowColor: "#000000",
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2.5, height: 2.5 },
+  },
+  logoImage: {
+    width: 32,
+    height: 32,
+  },
+  welcomeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  welcomeText: {
+    fontSize: 10,
+    fontWeight: "900",
+    color: "#666666",
+    letterSpacing: 0.5,
+  },
+  statusDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#32CD32",
   },
   appName: {
-    fontSize: 28,
+    fontSize: 22,
     fontWeight: "900",
     color: "#000000",
     letterSpacing: -0.5,
-  },
-  appSubHeader: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: "#666666",
     marginTop: -2,
+  },
+  headerActions: {
+    flexDirection: "row",
+    gap: 8,
   },
   menuIconButton: {
     backgroundColor: "#FFFFFF",
@@ -171,10 +256,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOpacity: 1,
     shadowRadius: 0,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: 3, height: 3 },
   },
   heroBannerBox: {
-    backgroundColor: "#FFE5D9", // Updated to a lighter, softer pastel peach
+    backgroundColor: "#FFE5D9",
     borderRadius: 20,
     padding: 20,
     marginBottom: 28,
@@ -204,6 +289,8 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "#000000",
     marginBottom: 8,
+    flexDirection: "row",
+    alignItems: "center",
   },
   tagText: {
     fontSize: 10,
@@ -225,8 +312,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   heroAssetImage: {
-    width: 110,  // Increased width
-    height: 110, // Increased height
+    width: 110,
+    height: 110,
     borderRadius: 12,
     marginRight: -6,
   },
@@ -242,7 +329,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOpacity: 1,
     shadowRadius: 0,
-    shadowOffset: { width: 2.5, height: 2.5 },
+    shadowOffset: { width: 3, height: 3 },
   },
   startLearningButtonText: {
     color: "#000000",
@@ -254,18 +341,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "900",
     color: "#000000",
-    marginBottom: 12,
+    marginBottom: 14,
   },
-  statsGrid: {
+  quickHubGrid: {
     flexDirection: "row",
     gap: 12,
     marginBottom: 28,
   },
-  statItemCard: {
+  hubCard: {
     flex: 1,
-    paddingVertical: 14,
+    padding: 12,
     borderRadius: 16,
-    alignItems: "center",
     borderWidth: 2.5,
     borderColor: "#000000",
     shadowColor: "#000000",
@@ -273,24 +359,35 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  statNumber: {
-    fontSize: 22,
+  hubIconBox: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 2,
+    borderColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  hubTitle: {
+    fontSize: 14,
     fontWeight: "900",
     color: "#000000",
   },
-  statLabel: {
-    fontSize: 12,
-    fontWeight: "800",
-    color: "#222222",
+  hubSubText: {
+    fontSize: 10,
+    fontWeight: "700",
+    color: "#444444",
     marginTop: 2,
   },
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 14,
   },
   countBadge: {
-    backgroundColor: "#EBE6D8",
+    backgroundColor: "#FFF4B8",
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 8,
@@ -313,7 +410,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOpacity: 1,
     shadowRadius: 0,
-    shadowOffset: { width: 3, height: 3 },
+    shadowOffset: { width: 3.5, height: 3.5 },
   },
   emptyIconCircle: {
     width: 52,
