@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "quotriousmind",
-    "slug": "quotriousmind",
+    "name": "quriousmind",
+    "slug": "quriousmind",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "quotriousmind",
+    "scheme": "quriousmind",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/images/icon.png"
@@ -17,7 +17,7 @@
         "backgroundColor": "#E6F4FE"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.smritiiii.quotriousmind"
+      "package": "com.smritiiii.quriousmind"
     },
     "web": {
       "output": "static",
@@ -44,7 +44,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "d58449be-1f39-47e1-b4d7-8c67bac89c2b"
+        "projectId": "b18d928b-89db-4e07-bb85-aebcca2818a1"
       }
     }
   }

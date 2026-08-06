@@ -1,22 +1,16 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 type TabIconProps = {
   focused: boolean;
   icon: keyof typeof Ionicons.glyphMap;
-  label: string;
 };
 
-function TabIcon({ focused, icon, label }: TabIconProps) {
-  return focused ? (
-    <View style={styles.activePill}>
-      <Ionicons name={icon} size={22} color="#000" />
-      <Text style={styles.activeLabel}>{label}</Text>
-    </View>
-  ) : (
-    <View style={styles.inactiveCircle}>
+function TabIcon({ focused, icon }: TabIconProps) {
+  return (
+    <View style={[styles.iconBox, focused && styles.activeIconBox]}>
       <Ionicons name={icon} size={22} color="#000" />
     </View>
   );
@@ -40,11 +34,7 @@ export default function TabLayout() {
         name="index"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon
-              focused={focused}
-              icon={focused ? "home" : "home-outline"}
-              label="Home"
-            />
+            <TabIcon focused={focused} icon={focused ? "home" : "home-outline"} />
           ),
         }}
       />
@@ -53,11 +43,7 @@ export default function TabLayout() {
         name="learning"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon
-              focused={focused}
-              icon={focused ? "book" : "book-outline"}
-              label="Learn"
-            />
+            <TabIcon focused={focused} icon={focused ? "book" : "book-outline"} />
           ),
         }}
       />
@@ -69,7 +55,6 @@ export default function TabLayout() {
             <TabIcon
               focused={focused}
               icon={focused ? "document-text" : "document-text-outline"}
-              label="Notes"
             />
           ),
         }}
@@ -79,11 +64,7 @@ export default function TabLayout() {
         name="quiz"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon
-              focused={focused}
-              icon={focused ? "bulb" : "bulb-outline"}
-              label="Quiz"
-            />
+            <TabIcon focused={focused} icon={focused ? "bulb" : "bulb-outline"} />
           ),
         }}
       />
@@ -95,7 +76,6 @@ export default function TabLayout() {
             <TabIcon
               focused={focused}
               icon={focused ? "calculator" : "calculator-outline"}
-              label="Calc"
             />
           ),
         }}
@@ -111,7 +91,7 @@ const styles = StyleSheet.create({
     right: 12,
     bottom: 24,
 
-    height: 74,
+    height: 64,
 
     backgroundColor: "#fff",
 
@@ -134,41 +114,17 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
 
-  activePill: {
-    height: 46,
-
-    paddingHorizontal: 8,
-
+  iconBox: {
+    width: 44,
+    height: 44,
     borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
+  activeIconBox: {
     backgroundColor: "#D8C8FF",
-
     borderWidth: 2,
     borderColor: "#000",
-
-    flexDirection: "row",
-
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  activeLabel: {
-    marginLeft: 4,
-
-    fontSize: 12,
-
-    fontWeight: "900",
-
-    color: "#000",
-  },
-
-  inactiveCircle: {
-    width: 42,
-    height: 42,
-
-    borderRadius: 14,
-
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
