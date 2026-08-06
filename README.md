@@ -1,4 +1,4 @@
-# 🤖 Qurious Mind
+#  Qurious Mind
 
 <p align="center">
   <img src="./assets/images/banner.png" alt="Qurious Mind Banner" width="100%">
