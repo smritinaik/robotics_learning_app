@@ -82,12 +82,6 @@ eas build --platform android --profile preview
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
 ## 👩‍💻 Developer
 
 **Smriti Naik**
