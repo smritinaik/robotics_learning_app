@@ -253,25 +253,11 @@ const TUTORIALS_DATA: TutorialItem[] = [
 
 export default function LearningScreen() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("construction");
-  const [selectedLevel, setSelectedLevel] = useState<SubCategoryType>("L1");
 
   const likedTutorials = useLikedStore((state) => state.likedTutorials);
   const toggleLike = useLikedStore((state) => state.toggleLike);
 
-  const isLiked = (id: string) => likedTutorials.some((item) => item.id === id);
-
-  // Available levels based on Category Selection
-  const availableLevels: SubCategoryType[] = useMemo(() => {
-    return selectedCategory === "construction" 
-      ? ["L1", "L2", "extra"] 
-      : ["L1", "L2", "L3"];
-  }, [selectedCategory]);
-
-  // Handle Switch Main Category
-  const handleCategoryChange = (category: CategoryType) => {
-    setSelectedCategory(category);
-    setSelectedLevel("L1"); // Reset level filter on main category switch
-  };
+  const isLiked = (id: string) => likedTutorials.some((item: { id: string }) => item.id === id);
 
   // Open Link Safely
   const handleOpenVideo = async (url: string) => {
@@ -287,12 +273,10 @@ export default function LearningScreen() {
     }
   };
 
-  // Filtered List
+  // Filtered List: Direct category lookup so no items/levels are missed
   const filteredTutorials = useMemo(() => {
-    return TUTORIALS_DATA.filter(
-      (item) => item.category === selectedCategory && item.level === selectedLevel
-    );
-  }, [selectedCategory, selectedLevel]);
+    return TUTORIALS_DATA.filter((item) => item.category === selectedCategory);
+  }, [selectedCategory]);
 
   return (
     <View style={styles.container}>
@@ -305,7 +289,7 @@ export default function LearningScreen() {
             styles.toggleButton,
             selectedCategory === "construction" ? styles.activeButton : styles.inactiveButton,
           ]}
-          onPress={() => handleCategoryChange("construction")}
+          onPress={() => setSelectedCategory("construction")}
           activeOpacity={0.9}
         >
           <Text
@@ -323,7 +307,7 @@ export default function LearningScreen() {
             styles.toggleButton,
             selectedCategory === "programming" ? styles.activeButton : styles.inactiveButton,
           ]}
-          onPress={() => handleCategoryChange("programming")}
+          onPress={() => setSelectedCategory("programming")}
           activeOpacity={0.9}
         >
           <Text
@@ -335,30 +319,6 @@ export default function LearningScreen() {
             Programming
           </Text>
         </TouchableOpacity>
-      </View>
-
-      {/* Sub-Category Level Filter Pills (L1, L2, L3/Extra) */}
-      <View style={styles.subCategoryContainer}>
-        {availableLevels.map((lvl) => (
-          <TouchableOpacity
-            key={lvl}
-            style={[
-              styles.levelPill,
-              selectedLevel === lvl && styles.activeLevelPill,
-            ]}
-            onPress={() => setSelectedLevel(lvl)}
-            activeOpacity={0.8}
-          >
-            <Text
-              style={[
-                styles.levelPillText,
-                selectedLevel === lvl && styles.activeLevelPillText,
-              ]}
-            >
-              {lvl === "extra" ? "Extras" : lvl}
-            </Text>
-          </TouchableOpacity>
-        ))}
       </View>
 
       {/* Tutorial List */}
@@ -427,7 +387,7 @@ const styles = StyleSheet.create({
     padding: 6,
     borderWidth: 2.5,
     borderColor: "#000000",
-    marginBottom: 16,
+    marginBottom: 20,
     alignSelf: "center",
     width: "100%",
   },
@@ -458,31 +418,6 @@ const styles = StyleSheet.create({
   activeToggleText: {
     fontWeight: "900",
     color: "#000000",
-  },
-  subCategoryContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 20,
-    gap: 10,
-  },
-  levelPill: {
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 2,
-    borderColor: "#000000",
-  },
-  activeLevelPill: {
-    backgroundColor: "#000000",
-  },
-  levelPillText: {
-    fontSize: 13,
-    fontWeight: "800",
-    color: "#000000",
-  },
-  activeLevelPillText: {
-    color: "#FFFFFF",
   },
   notebookCard: {
     backgroundColor: "#FFFFFF",

@@ -3,175 +3,114 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   StatusBar,
   Image,
+  Dimensions,
 } from "react-native";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { useLikedStore } from "../../store/useLikedStore";
+
+const { width, height } = Dimensions.get("window");
+const GRID_SIZE = 32;
+const numCols = Math.ceil(width / GRID_SIZE);
+const numRows = Math.ceil(height / GRID_SIZE);
 
 export default function HomeScreen() {
-  const likedTutorials = useLikedStore((state) => state.likedTutorials);
-  const toggleLike = useLikedStore((state) => state.toggleLike);
-
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F8F4E8" />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFF5EE" />
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Top Header Section */}
-        <View style={styles.topHeaderRow}>
-          <View style={styles.userSection}>
-            <View style={styles.logoBorder}>
-              <Image
-                source={require("../../assets/images/logo.png")}
-                style={styles.logoImage}
-                resizeMode="contain"
-              />
-            </View>
-            <View>
-              <View style={styles.welcomeRow}>
-                <Text style={styles.welcomeText}>WELCOME BACK</Text>
-                <View style={styles.statusDot} />
-              </View>
-              <Text style={styles.appName}>Qurious Mind</Text>
-            </View>
+      {/* Full Screen Neo-Brutalist Square Grid Background */}
+      <View style={styles.gridOverlay} pointerEvents="none">
+        {Array.from({ length: numRows }).map((_, rowIndex) => (
+          <View key={`row-${rowIndex}`} style={styles.gridRow}>
+            {Array.from({ length: numCols }).map((_, colIndex) => (
+              <View key={`cell-${rowIndex}-${colIndex}`} style={styles.gridCell} />
+            ))}
           </View>
+        ))}
+      </View>
 
-          <View style={styles.headerActions}>
-            <TouchableOpacity style={styles.menuIconButton} activeOpacity={0.8}>
-              <Ionicons name="notifications-outline" size={20} color="#000000" />
-            </TouchableOpacity>
-          </View>
+      {/* Background Doodles & Grids */}
+      <View style={styles.bgDecorations} pointerEvents="none">
+        <View style={styles.topDotGrid}>
+          {[...Array(24)].map((_, i) => (
+            <View key={`top-${i}`} style={styles.dot} />
+          ))}
         </View>
 
-        {/* Neo-brutalist Hero Banner */}
-        <View style={styles.heroBannerBox}>
-          <View style={styles.heroContentContainer}>
-            <View style={styles.heroTextSection}>
-              <View style={styles.tagBadge}>
-                <Ionicons name="sparkles" size={12} color="#000" style={{ marginRight: 4 }} />
-                <Text style={styles.tagText}>FEATURED TRACK</Text>
-              </View>
-              <Text style={styles.heroTitleText}>Build & Program</Text>
-              <Text style={styles.heroDescriptionText}>
-                Master microcontrollers, sensors, and kinematics from scratch.
-              </Text>
-            </View>
-            <Image
-              source={require("../../assets/images/homeimg.png")}
-              style={styles.heroAssetImage}
-              resizeMode="contain"
-            />
-          </View>
-
-          <TouchableOpacity
-            style={styles.startLearningButton}
-            activeOpacity={0.85}
-            onPress={() => router.push("/learning")}
-          >
-            <Text style={styles.startLearningButtonText}>LAUNCH TRACKS</Text>
-            <Ionicons
-              name="flash"
-              size={16}
-              color="#000000"
-              style={{ marginLeft: 6 }}
-            />
-          </TouchableOpacity>
+        <View style={styles.leftDotGrid}>
+          {[...Array(16)].map((_, i) => (
+            <View key={`left-${i}`} style={styles.dot} />
+          ))}
         </View>
 
-        {/* Quick Hub Navigation Cards */}
-        <Text style={styles.sectionTitle}>Quick Hub</Text>
-        <View style={styles.quickHubGrid}>
-          <TouchableOpacity
-            style={[styles.hubCard, { backgroundColor: "#CDE7FF" }]}
-            activeOpacity={0.85}
-            onPress={() => router.push("/learning")}
-          >
-            <View style={styles.hubIconBox}>
-              <Ionicons name="book" size={20} color="#000" />
-            </View>
-            <Text style={styles.hubTitle}>Tracks</Text>
-            <Text style={styles.hubSubText}>Browse Lessons</Text>
-          </TouchableOpacity>
+        <Text style={[styles.crosshair, { top: 70, right: 30 }]}>+</Text>
+        <Text style={[styles.crosshair, { top: 280, left: 24 }]}>+</Text>
 
-          <TouchableOpacity
-            style={[styles.hubCard, { backgroundColor: "#FFF4B8" }]}
-            activeOpacity={0.85}
-            onPress={() => router.push("/notes")}
-          >
-            <View style={styles.hubIconBox}>
-              <Ionicons name="document-text" size={20} color="#000" />
-            </View>
-            <Text style={styles.hubTitle}>Notes</Text>
-            <Text style={styles.hubSubText}>Drive Resources</Text>
-          </TouchableOpacity>
+        <View style={styles.decorBlockBlack} />
+        <View style={styles.decorBlockGreen} />
+      </View>
 
-          <TouchableOpacity
-            style={[styles.hubCard, { backgroundColor: "#E8D5FF" }]}
-            activeOpacity={0.85}
-            onPress={() => router.push("/quiz")}
-          >
-            <View style={styles.hubIconBox}>
-              <Ionicons name="bulb" size={20} color="#000" />
-            </View>
-            <Text style={styles.hubTitle}>Quizzes</Text>
-            <Text style={styles.hubSubText}>Test Skills</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Section Header: Saved Bookmarks */}
+      <View style={styles.mainContent}>
+        {/* Top Header Logo */}
         <View style={styles.headerRow}>
-          <Text style={styles.sectionTitle}>Bookmarks</Text>
-          <View style={styles.countBadge}>
-            <Text style={styles.countText}>{likedTutorials.length}</Text>
+          <Image
+            source={require("../../assets/images/logo.png")}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* Headline Section */}
+        <View style={styles.headlineContainer}>
+          <View style={styles.headlineRow}>
+            <Text style={styles.headlineTextRegular}>Nurturing </Text>
+            <View style={styles.highlightSelectionBox}>
+              <Text style={styles.highlightText}>Urge</Text>
+            </View>
+          </View>
+
+          <View style={styles.headlineRow}>
+            <Text style={styles.headlineTextRegular}>to </Text>
+            <View style={styles.highlightSelectionBox}>
+              <Text style={styles.highlightText}>Create</Text>
+            </View>
           </View>
         </View>
 
-        {likedTutorials.length === 0 ? (
-          <View style={styles.emptyCard}>
-            <View style={styles.emptyIconCircle}>
-              <Ionicons name="heart-outline" size={28} color="#000000" />
-            </View>
-            <Text style={styles.emptyTitle}>No Bookmarks Saved</Text>
-            <Text style={styles.emptySubtitle}>
-              Tap the heart icon on any tutorial track in the learning tab to save
-              it here.
-            </Text>
-          </View>
-        ) : (
-          likedTutorials.map((tutorial) => (
+        {/* Robot Illustration Space */}
+        <View style={styles.robotImageWrapper}>
+          <Image
+            source={require("../../assets/images/homeimg.png")}
+            style={styles.robotAsset}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* Rounded Pill Neo-Brutalist CTA Button */}
+        <View style={styles.bottomSection}>
+          <View style={styles.pillButtonShadowWrapper}>
             <TouchableOpacity
-              key={tutorial.id}
-              style={styles.card}
-              activeOpacity={0.85}
+              style={styles.pillGetStartedButton}
+              activeOpacity={0.88}
               onPress={() => router.push("/learning")}
             >
-              <View style={styles.iconContainer}>
-                <Ionicons name="book-outline" size={20} color="#000000" />
-              </View>
-
-              <View style={{ flex: 1 }}>
-                <Text style={styles.cardTitle}>{tutorial.title}</Text>
-                <Text style={styles.cardSubtitle}>{tutorial.level} Track</Text>
-              </View>
-
-              <TouchableOpacity
-                style={{ padding: 4 }}
-                onPress={() => toggleLike(tutorial)}
-                activeOpacity={0.7}
-              >
-                <Ionicons name="heart" size={24} color="#FF8B94" />
-              </TouchableOpacity>
+              <Text style={styles.pillButtonText}>GET STARTED</Text>
             </TouchableOpacity>
-          ))
-        )}
-      </ScrollView>
+          </View>
+
+          {/* Subtext Link */}
+          <TouchableOpacity 
+            activeOpacity={0.7}
+            onPress={() => router.push("/learning")}
+            style={styles.subtextContainer}
+          >
+            <Text style={styles.orSignUpText}></Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
     </View>
   );
 }
@@ -179,297 +118,186 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F4E8",
+    backgroundColor: "#FFF5EE",
+    position: "relative",
   },
-  scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 54,
-    paddingBottom: 130,
+
+  /* Square Grid Background Pattern */
+  gridOverlay: {
+    position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+    zIndex: 0,
+    opacity: 0.12,
   },
-  topHeaderRow: {
+  gridRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
   },
-  userSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  logoBorder: {
-    width: 44,
-    height: 44,
-    borderRadius: 14,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 2.5,
+  gridCell: {
+    width: GRID_SIZE,
+    height: GRID_SIZE,
+    borderWidth: 0.5,
     borderColor: "#000000",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 2.5, height: 2.5 },
   },
-  logoImage: {
-    width: 32,
-    height: 32,
-  },
-  welcomeRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  welcomeText: {
-    fontSize: 10,
-    fontWeight: "900",
-    color: "#666666",
-    letterSpacing: 0.5,
-  },
-  statusDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: "#32CD32",
-  },
-  appName: {
-    fontSize: 22,
-    fontWeight: "900",
-    color: "#000000",
-    letterSpacing: -0.5,
-    marginTop: -2,
-  },
-  headerActions: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  menuIconButton: {
-    backgroundColor: "#FFFFFF",
-    width: 44,
-    height: 44,
-    borderRadius: 14,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 3, height: 3 },
-  },
-  heroBannerBox: {
-    backgroundColor: "#FFE5D9",
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 28,
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 4, height: 4 },
-  },
-  heroContentContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 16,
-  },
-  heroTextSection: {
+
+  mainContent: {
     flex: 1,
-    paddingRight: 8,
+    paddingHorizontal: 24,
+    paddingTop: 36,
+    paddingBottom: 85,
+    justifyContent: "space-between",
+    zIndex: 2,
   },
-  tagBadge: {
-    alignSelf: "flex-start",
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-    borderWidth: 1.5,
-    borderColor: "#000000",
-    marginBottom: 8,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  tagText: {
-    fontSize: 10,
-    fontWeight: "900",
-    color: "#000000",
-    letterSpacing: 0.5,
-  },
-  heroTitleText: {
-    fontSize: 22,
-    fontWeight: "900",
-    color: "#000000",
-    marginBottom: 6,
-    lineHeight: 26,
-  },
-  heroDescriptionText: {
-    fontSize: 13,
-    color: "#333333",
-    lineHeight: 18,
-    fontWeight: "700",
-  },
-  heroAssetImage: {
-    width: 110,
-    height: 110,
-    borderRadius: 12,
-    marginRight: -6,
-  },
-  startLearningButton: {
-    backgroundColor: "#BFFCC6",
-    borderRadius: 12,
-    paddingVertical: 14,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 3, height: 3 },
-  },
-  startLearningButtonText: {
-    color: "#000000",
-    fontWeight: "900",
-    fontSize: 14,
-    letterSpacing: 0.5,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "900",
-    color: "#000000",
-    marginBottom: 14,
-  },
-  quickHubGrid: {
-    flexDirection: "row",
-    gap: 12,
-    marginBottom: 28,
-  },
-  hubCard: {
-    flex: 1,
-    padding: 12,
-    borderRadius: 16,
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 3, height: 3 },
-  },
-  hubIconBox: {
-    width: 34,
-    height: 34,
-    borderRadius: 10,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 2,
-    borderColor: "#000000",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  hubTitle: {
-    fontSize: 14,
-    fontWeight: "900",
-    color: "#000000",
-  },
-  hubSubText: {
-    fontSize: 10,
-    fontWeight: "700",
-    color: "#444444",
-    marginTop: 2,
-  },
+
+  /* Header Logo */
   headerRow: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 14,
-  },
-  countBadge: {
-    backgroundColor: "#FFF4B8",
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: "#000000",
-    marginLeft: 8,
-  },
-  countText: {
-    color: "#000000",
-    fontWeight: "900",
-    fontSize: 12,
-  },
-  emptyCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 18,
-    padding: 24,
-    alignItems: "center",
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 3.5, height: 3.5 },
-  },
-  emptyIconCircle: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: "#FFD6E7",
-    borderWidth: 2,
-    borderColor: "#000000",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     marginBottom: 8,
   },
-  emptyTitle: {
-    color: "#000000",
-    fontSize: 16,
-    fontWeight: "900",
+  logoImage: {
+    width: 44,
+    height: 44,
   },
-  emptySubtitle: {
-    color: "#666666",
-    textAlign: "center",
-    marginTop: 4,
-    fontSize: 12,
-    fontWeight: "700",
-    lineHeight: 16,
+
+  /* Figma Selection Highlight Headline Style */
+  headlineContainer: {
+    marginTop: 2,
+    alignItems: "flex-start",
   },
-  card: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    padding: 14,
+  headlineRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 14,
-    borderWidth: 2.5,
-    borderColor: "#000000",
-    shadowColor: "#000000",
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 3.5, height: 3.5 },
+    marginBottom: 4,
   },
-  iconContainer: {
-    width: 42,
-    height: 42,
-    borderRadius: 12,
-    backgroundColor: "#FFD6E7",
+  headlineTextRegular: {
+    fontSize: 38,
+    fontWeight: "900",
+    color: "#0F172A",
+    letterSpacing: -1,
+    lineHeight: 46,
+  },
+  highlightSelectionBox: {
+    backgroundColor: "#CCFFD8",
+    paddingHorizontal: 8,
+    paddingVertical: 1,
+    borderRadius: 2,
+  },
+  highlightText: {
+    fontSize: 38,
+    fontWeight: "900",
+    color: "#0F172A",
+    letterSpacing: -1,
+    lineHeight: 46,
+  },
+
+  /* Robot Illustration */
+  robotImageWrapper: {
+    flex: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 12,
+  },
+  robotAsset: {
+    width: "100%",
+    height: "100%",
+  },
+
+  /* Background Elements */
+  bgDecorations: {
+    position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+    zIndex: 1,
+  },
+  topDotGrid: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    width: 60,
+    height: 80,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+    opacity: 0.35,
+  },
+  leftDotGrid: {
+    position: "absolute",
+    top: 320,
+    left: 16,
+    width: 45,
+    height: 60,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+    opacity: 0.3,
+  },
+  dot: {
+    width: 3.5,
+    height: 3.5,
+    borderRadius: 2,
+    backgroundColor: "#000000",
+  },
+  crosshair: {
+    position: "absolute",
+    fontSize: 22,
+    fontWeight: "900",
+    color: "#000000",
+    opacity: 0.25,
+  },
+  decorBlockBlack: {
+    position: "absolute",
+    bottom: 180,
+    left: 36,
+    width: 22,
+    height: 22,
+    backgroundColor: "#000000",
+  },
+  decorBlockGreen: {
+    position: "absolute",
+    bottom: 170,
+    left: 48,
+    width: 22,
+    height: 22,
+    backgroundColor: "#00FF66",
     borderWidth: 2,
     borderColor: "#000000",
   },
-  cardTitle: {
-    color: "#000000",
-    fontSize: 15,
-    fontWeight: "900",
+
+  /* Pill Neo-Brutalist Button (Light Green Fill) */
+  bottomSection: {
+    width: "100%",
+    alignItems: "center",
   },
-  cardSubtitle: {
-    color: "#666666",
-    marginTop: 2,
+  pillButtonShadowWrapper: {
+    backgroundColor: "#000000",
+    width: "100%",
+    height: 58,
+    borderRadius: 29,
+  },
+  pillGetStartedButton: {
+    backgroundColor: "#A3F3B6", // Light shade of green
+    borderWidth: 2.5,
+    borderColor: "#000000",
+    height: 58,
+    borderRadius: 29,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -4,
+    marginLeft: -4,
+  },
+  pillButtonText: {
+    fontSize: 20,
+    fontWeight: "900",
+    color: "#000000",
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+  },
+  subtextContainer: {
+    marginTop: 10,
+    paddingVertical: 4,
+  },
+  orSignUpText: {
     fontSize: 12,
-    fontWeight: "700",
+    fontWeight: "800",
+    color: "#000000",
+    letterSpacing: 0.8,
   },
 });
