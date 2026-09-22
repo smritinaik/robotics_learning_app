@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
   Dimensions,
+  Platform,
 } from "react-native";
 import { router } from "expo-router";
 
@@ -62,7 +63,7 @@ export default function HomeScreen() {
           />
         </View>
 
-        {/* Headline Section */}
+        {/* Headline Section - Scaled Up with High-Impact Typography */}
         <View style={styles.headlineContainer}>
           <View style={styles.headlineRow}>
             <Text style={styles.headlineTextRegular}>Nurturing </Text>
@@ -79,7 +80,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Robot Illustration Space */}
+        {/* Robot Illustration Space - Maximized Size */}
         <View style={styles.robotImageWrapper}>
           <Image
             source={require("../../assets/images/homeimg.png")}
@@ -88,7 +89,7 @@ export default function HomeScreen() {
           />
         </View>
 
-        {/* Rounded Pill Neo-Brutalist CTA Button */}
+        {/* Rounded Pill Neo-Brutalist CTA Button - Lifted Upward */}
         <View style={styles.bottomSection}>
           <View style={styles.pillButtonShadowWrapper}>
             <TouchableOpacity
@@ -140,9 +141,9 @@ const styles = StyleSheet.create({
 
   mainContent: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 36,
-    paddingBottom: 85,
+    paddingBottom: 20, // Reduced padding to shift elements up
     justifyContent: "space-between",
     zIndex: 2,
   },
@@ -152,14 +153,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 4,
   },
   logoImage: {
-    width: 44,
-    height: 44,
+    width: 48,
+    height: 48,
   },
 
-  /* Figma Selection Highlight Headline Style */
+  /* Figma Selection Highlight Headline Style - Enlarged Typography */
   headlineContainer: {
     marginTop: 2,
     alignItems: "flex-start",
@@ -167,39 +168,42 @@ const styles = StyleSheet.create({
   headlineRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 4,
+    marginBottom: 6,
   },
   headlineTextRegular: {
-    fontSize: 38,
+    fontSize: 44, // Increased size
     fontWeight: "900",
     color: "#0F172A",
-    letterSpacing: -1,
-    lineHeight: 46,
+    letterSpacing: -1.5,
+    lineHeight: 52,
+    fontFamily: Platform.OS === "ios" ? "Avenir-Black" : "sans-serif-black",
   },
   highlightSelectionBox: {
     backgroundColor: "#CCFFD8",
-    paddingHorizontal: 8,
-    paddingVertical: 1,
-    borderRadius: 2,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    borderRadius: 4,
   },
   highlightText: {
-    fontSize: 38,
+    fontSize: 44, // Increased size
     fontWeight: "900",
     color: "#0F172A",
-    letterSpacing: -1,
-    lineHeight: 46,
+    letterSpacing: -1.5,
+    lineHeight: 52,
+    fontFamily: Platform.OS === "ios" ? "Avenir-Black" : "sans-serif-black",
   },
 
-  /* Robot Illustration */
+  /* Robot Illustration - Takes Max Screen Real Estate */
   robotImageWrapper: {
-    flex: 1,
+    flex: 1.2, // Increased flex weight to enlarge illustration area
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    marginVertical: 3,
   },
   robotAsset: {
-    width: "100%",
-    height: "100%",
+    width: "110%", // Expanded bounds for larger asset presence
+    height: "110%",
   },
 
   /* Background Elements */
@@ -261,10 +265,12 @@ const styles = StyleSheet.create({
     borderColor: "#000000",
   },
 
-  /* Pill Neo-Brutalist Button (Light Green Fill) */
+  /* Pill Neo-Brutalist Button */
+/* Pill Neo-Brutalist Button */
   bottomSection: {
     width: "100%",
     alignItems: "center",
+    marginBottom: 90, // Increased padding to clear bottom nav tab
   },
   pillButtonShadowWrapper: {
     backgroundColor: "#000000",
@@ -273,7 +279,7 @@ const styles = StyleSheet.create({
     borderRadius: 29,
   },
   pillGetStartedButton: {
-    backgroundColor: "#A3F3B6", // Light shade of green
+    backgroundColor: "#A3F3B6",
     borderWidth: 2.5,
     borderColor: "#000000",
     height: 58,
@@ -291,7 +297,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   subtextContainer: {
-    marginTop: 10,
+    marginTop: 4,
     paddingVertical: 4,
   },
   orSignUpText: {

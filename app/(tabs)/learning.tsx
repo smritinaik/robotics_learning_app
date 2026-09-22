@@ -14,8 +14,8 @@ import * as Linking from "expo-linking";
 import { useLikedStore } from "../../store/useLikedStore";
 
 // --- Types ---
-type CategoryType = "construction" | "programming";
-type SubCategoryType = "L1" | "L2" | "L3" | "extra";
+type CategoryType = "construction" | "programming" | "arduino";
+type SubCategoryType = "L1" | "L2" | "L3" | "extra" | "document";
 
 interface TutorialItem {
   id: string;
@@ -249,6 +249,19 @@ const TUTORIALS_DATA: TutorialItem[] = [
   { id: "p3-41", title: "Bluetooth programming concepts", videoUrl: "https://youtu.be/MoPStdhv6WM?si=uBvaYMSDSpZYEU85", category: "programming", level: "L3", accentColor: "#FFD6E7", icon: "📶" },
   { id: "p3-42", title: "Bluetooth program structure", videoUrl: "https://youtu.be/f4Q1XbJnNoc?si=HKMPgUlMOsqSG8ys", category: "programming", level: "L3", accentColor: "#FFD6E7", icon: "🏗️" },
   { id: "p3-43", title: "Bluetooth controlled vehicle", videoUrl: "https://youtu.be/rGbszWk8qpE?si=QIMlQyyUhAlqOQn2", category: "programming", level: "L3", accentColor: "#FFD6E7", icon: "🏎️" },
+
+  // ==========================================
+  // ARDUINO - DOCUMENT MODULE
+  // ==========================================
+  {
+    id: "a1-1",
+    title: "Arduino Documentation & Reference",
+    videoUrl: "https://docs.google.com/document/d/1WGYx1Mb5oMBc5WjjmDBwvbEqOuBGk_Jxurt8LxKADeI/edit?usp=drivesdk", // Replace this URL with your preferred document link
+    category: "arduino",
+    level: "document",
+    accentColor: "#C5F2EF",
+    icon: "📄",
+  },
 ];
 
 export default function LearningScreen() {
@@ -269,7 +282,7 @@ export default function LearningScreen() {
         await WebBrowser.openBrowserAsync(url);
       }
     } catch {
-      Alert.alert("Error", "Could not open video link.");
+      Alert.alert("Error", "Could not open link.");
     }
   };
 
@@ -282,7 +295,7 @@ export default function LearningScreen() {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#F8F4E8" />
 
-      {/* Primary Category Switcher (CONSTRUCTION / PROGRAMMING) */}
+      {/* Primary Category Switcher (CONSTRUCTION / PROGRAMMING / ARDUINO) */}
       <View style={styles.toggleRowContainer}>
         <TouchableOpacity
           style={[
@@ -319,6 +332,24 @@ export default function LearningScreen() {
             Programming
           </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.toggleButton,
+            selectedCategory === "arduino" ? styles.activeButton : styles.inactiveButton,
+          ]}
+          onPress={() => setSelectedCategory("arduino")}
+          activeOpacity={0.9}
+        >
+          <Text
+            style={[
+              styles.toggleText,
+              selectedCategory === "arduino" && styles.activeToggleText,
+            ]}
+          >
+            Arduino
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Tutorial List */}
@@ -345,7 +376,7 @@ export default function LearningScreen() {
             <View style={{ flex: 1 }}>
               <Text style={styles.cardTitle}>{item.title}</Text>
               <Text style={styles.cardSubtitle}>
-                {item.category.toUpperCase()} • {item.level === "extra" ? "Extras" : item.level}
+                {item.category.toUpperCase()} • {item.level === "extra" ? "Extras" : item.level === "document" ? "Document" : item.level}
               </Text>
             </View>
 
@@ -382,7 +413,7 @@ const styles = StyleSheet.create({
   },
   toggleRowContainer: {
     flexDirection: "row",
-    backgroundColor: "#EBE6D8",
+    backgroundColor: "#f8e2be",
     borderRadius: 16,
     padding: 6,
     borderWidth: 2.5,
@@ -393,13 +424,13 @@ const styles = StyleSheet.create({
   },
   toggleButton: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: 10,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   activeButton: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#f5f2db",
     borderWidth: 2,
     borderColor: "#000000",
     shadowColor: "#000000",
@@ -411,7 +442,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   toggleText: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: "700",
     color: "#555555",
   },

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "quriousmind",
-    "slug": "quriousmind",
+    "name": "Qurio Learn",
+    "slug": "qurio-learn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "quriousmind",
+    "scheme": "qurio-learn",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/images/icon.png"
@@ -44,7 +44,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "b18d928b-89db-4e07-bb85-aebcca2818a1"
+        "projectId": "bffb5bde-41bc-4890-892f-434d887bf5c2"
       }
     }
   }

@@ -14,7 +14,7 @@ import * as Linking from "expo-linking";
 
 // Shared Google Drive Link for demo
 const DEMO_DRIVE_LINK =
-  "https://drive.google.com/file/d/1n46zKhdWahmQ0FvEBZApWc9vN_zqujTU/view?usp=drive_link";
+  "https://drive.google.com/file/d/1qqJsszSXLNuiiZg4gMyXv8i_7Vt9hsPM/view?usp=sharing";
 
 interface NoteFolder {
   id: string;
@@ -36,8 +36,8 @@ const noteFolders: NoteFolder[] = [
     course: "Introduction to Robotics",
     itemCountText: "1 PDF note",
     iconName: "hardware-chip-outline",
-    tabColor: "#9E9E9E",
-    iconBgColor: "#CCCCCC",
+    tabColor: "#fd56d3",
+    iconBgColor: "#ff97e5",
     driveUrl: DEMO_DRIVE_LINK,
   },
   {
@@ -52,7 +52,7 @@ const noteFolders: NoteFolder[] = [
   },
   {
     id: "f3",
-    title: "Sensors & Motors",
+    title: "Programming ",
     course: "Robotics Hardware",
     itemCountText: "5 PDF notes",
     subText: "2 sub-folders",
@@ -63,35 +63,15 @@ const noteFolders: NoteFolder[] = [
   },
   {
     id: "f4",
-    title: "Kinematics & Motion",
-    course: "Advanced Robotics",
+    title: "M-Block",
+    course: "Robotics Programming",
     itemCountText: "2 PDF notes",
     iconName: "planet-outline",
-    tabColor: "#A0E040",
-    iconBgColor: "#B9F442",
+    tabColor: "#ff6b26",
+    iconBgColor: "#ff9c6e",
     driveUrl: DEMO_DRIVE_LINK,
   },
-  {
-    id: "f5",
-    title: "Microcontrollers Exam",
-    course: "Embedded Systems",
-    itemCountText: "4 PDF notes",
-    iconName: "pulse-outline",
-    tabColor: "#FF4D8D",
-    iconBgColor: "#FF659D",
-    driveUrl: DEMO_DRIVE_LINK,
-  },
-  {
-    id: "f6",
-    title: "Cheat Sheets & Pinouts",
-    course: "Reference Guide",
-    itemCountText: "6 PDF notes",
-    isNew: true,
-    iconName: "heart-outline",
-    tabColor: "#7C4DFF",
-    iconBgColor: "#9162FF",
-    driveUrl: DEMO_DRIVE_LINK,
-  },
+
 ];
 
 export default function NotesScreen() {

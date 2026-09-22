@@ -12,68 +12,56 @@ import { Ionicons } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 
-const QUIZ_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSesMzhr0ksgUSndKZM5MQVJ9XyjvZ-Afm3PiK8BiF6029IwVw/viewform?usp=publish-editor";
+type Quiz = {
+  id: number;
+  title: string;
+  questions: number;
+  level: string;
+  color: string;
+  url: string;
+};
 
-const quizzes = [
+const quizzes: Quiz[] = [
   {
     id: 1,
-    title: "Introduction to Robotics",
+    title: "Robotics Construction",
     questions: 10,
     level: "Beginner",
     color: "#FFE66D",
+    url: "https://www.quriousmind.co.in/quizzes/robotics-construction/",
   },
   {
     id: 2,
-    title: "Arduino Basics",
+    title: "Block Programming",
     questions: 15,
-    level: "Beginner",
+    level: "Intermediate",
     color: "#B8F2E6",
+    url: "https://www.quriousmind.co.in/quizzes/robotics-block-programming-quiz/",
   },
   {
     id: 3,
-    title: "Sensors & Actuators",
+    title: "Arduino & Electronics",
     questions: 12,
-    level: "Intermediate",
+    level: "Advanced",
     color: "#F8C8DC",
-  },
-  {
-    id: 4,
-    title: "Motors & Gear Systems",
-    questions: 14,
-    level: "Intermediate",
-    color: "#A9DEF9",
-  },
-  {
-    id: 5,
-    title: "Bluetooth Robot Car",
-    questions: 18,
-    level: "Advanced",
-    color: "#FFD6A5",
-  },
-  {
-    id: 6,
-    title: "Line Follower Robot",
-    questions: 20,
-    level: "Advanced",
-    color: "#D0BFFF",
+    url: "https://www.quriousmind.co.in/quizzes/robotics-arduino-electronics-quiz/",
   },
 ];
 
-const rotations = ["-2deg", "2deg", "-1deg", "3deg", "-3deg", "1deg"];
+const rotations = ["-2deg", "2deg", "-1deg"];
 
 export default function QuizScreen() {
-  // Handler to launch the Google Form directly
-  const handleStartQuiz = async () => {
+  // Handler to launch specific quiz link
+  const handleStartQuiz = async (url: string) => {
     try {
-      const canOpen = await Linking.canOpenURL(QUIZ_FORM_URL);
+      const canOpen = await Linking.canOpenURL(url);
       if (canOpen) {
-        await WebBrowser.openBrowserAsync(QUIZ_FORM_URL);
+        await WebBrowser.openBrowserAsync(url);
       } else {
-        await Linking.openURL(QUIZ_FORM_URL);
+        await Linking.openURL(url);
       }
     } catch {
-      Alert.alert("Error", "Could not open the quiz form.");
+      Alert.alert("Error", "Could not open the quiz link.");
     }
   };
 
@@ -95,7 +83,7 @@ export default function QuizScreen() {
           <TouchableOpacity
             key={quiz.id}
             activeOpacity={0.85}
-            onPress={handleStartQuiz}
+            onPress={() => handleStartQuiz(quiz.url)}
             style={[
               styles.note,
               {
@@ -121,7 +109,7 @@ export default function QuizScreen() {
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.8}
-              onPress={handleStartQuiz}
+              onPress={() => handleStartQuiz(quiz.url)}
             >
               <Text style={styles.buttonText}>Start Quiz</Text>
 
